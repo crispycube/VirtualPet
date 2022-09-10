@@ -20,7 +20,6 @@ public void draw() {
 
   boolean left = false;
   boolean right = false; 
-  boolean roundEnd = false;
   if(arduino.analogRead(6) > 0){
     left = true;
   }
@@ -28,31 +27,31 @@ public void draw() {
     right = true;
   }
 
-  fill(#1de051);
+  fill(#1b5c1e);
   rect(x, 700, 50, 50); //the thing the player controls
 
   if(left){
-    x -= 25;
+    x -= 10;
   }
   if(right){
-    x += 25;
+    x += 10;
   }
   if(x < 0){
     x = 0;
   }
-  if(x > 900){
-    x = 900;
+  if(x > 950){
+    x = 950;
   }
   
-  fill(#000000);
+  fill(#47546b);
   rect(xRect1, yRect, 200, 200);
   rect(xRect2, yRect, 200, 200);
   yRect += speed;
   
-  if(yRect > 1000){
-    roundEnd = true;
+  if(yRect > 1000 && gameEnd == false){
     yRect = -200;
     round += 1;
+    speed += 1;
     xRect1 = (int)(Math.random()*200) + 50;
     xRect2 = (int)(Math.random()*200) + 550;
     rect(xRect1, yRect, 200, 200);
@@ -61,21 +60,32 @@ public void draw() {
   
   
   textSize(16);
+  fill(#000000);
   text("Round: " + round, 20, 20);
   text("Speed Multiplier: " + speed + "x", 20, 40);
-  if(roundEnd == true) {
-    speed += 1;
+  
+  for(int i = 0; i < 42; i++){
+    if(get(x + 4, 704 + i) == -12102549){
+      gameEnd = true;
+    }
   }
-  //color = 
   
-  System.out.println(get(520, 720));
+  for(int i = 0; i < 42; i++){
+    if(get(x + 46, 704 + i) == -12102549){
+      gameEnd = true;
+    }
+  }
   
-  if(get(x, 700) != -14819247) || get(x,  )
+  if(speed > 100){
+    gameEnd = true;
+  }
   
   if(gameEnd == true){
     background(192);
-    textSize(300);
-    text("Good Game", 500, 500);
+    textSize(100);
+    text("Good Game", 250, 500);
+    textSize(50);
+    text("Rounds Survived: " + round, 300, 750);
   }
   
 }
